@@ -16,8 +16,8 @@ public  class OSSManageUtil {
     private static String endpoint = "oss-cn-shenzhen.aliyuncs.com";
     private static String accessKeyId = "LTAIUq4XUo9YbSXa";
     private static String accessKeySecret = "SFbS9ACh9XLz3E3YqaGMPZl7GuYWWi";
-    private static String bucketName = "gxmyfile";
-    private static String accessUrl = "gxmyfile.oss-cn-shenzhen.aliyuncs.com";
+    private static String bucketName = "myfile12345";
+    private static String accessUrl = bucketName + ".oss-cn-shenzhen.aliyuncs.com";
     /**
      * 上传OSS服务器文件 @Title: uploadFile
      *  @param fileContent spring 上传的流
@@ -32,6 +32,9 @@ public  class OSSManageUtil {
 //        OSSConfigure ossConfigure = new OSSConfigure("/system.properties");
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId,
                 accessKeySecret);
+//        if(!ossClient.doesBucketExist(bucketName)){
+//            ossClient.createBucket(bucketName);
+//        }
         //设置bucket权限
         ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
         // 定义二级目录
