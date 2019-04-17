@@ -58,19 +58,19 @@ public  class OSSManageUtil {
 
     // 下载文件
     @SuppressWarnings("unused")
-    public static void downloadFile(OSSConfigure ossConfigure, String key, String filename)
+    public static void downloadFile(String source, String filename)
             throws OSSException, ClientException, IOException {
         // 初始化OSSClient
-        OSSClient ossClient = new OSSClient(ossConfigure.getEndpoint(), ossConfigure.getAccessKeyId(),
-                ossConfigure.getAccessKeySecret());
-        OSSObject object = ossClient.getObject(ossConfigure.getBucketName(), key);
-        // 获取ObjectMeta
+        OSSClient ossClient = new OSSClient(endpoint, accessKeyId,
+                accessKeySecret);
+        OSSObject object = ossClient.getObject(bucketName, source);
+//        // 获取ObjectMeta
         ObjectMetadata meta = object.getObjectMetadata();
 
         // 获取Object的输入流
         InputStream objectContent = object.getObjectContent();
 
-        ObjectMetadata objectData = ossClient.getObject(new GetObjectRequest(ossConfigure.getBucketName(), key),
+        ObjectMetadata objectData = ossClient.getObject(new GetObjectRequest(bucketName, source),
                 new File(filename));
         // 关闭数据流
         objectContent.close();
@@ -84,11 +84,10 @@ public  class OSSManageUtil {
      */
     public static void deleteFile( String filePath) throws IOException {
         // 加载配置文件，初始化OSSClient
-        OSSConfigure ossConfigure = new OSSConfigure("/system.properties");
-        OSSClient ossClient = new OSSClient(ossConfigure.getEndpoint(), ossConfigure.getAccessKeyId(),
-                ossConfigure.getAccessKeySecret());
-        filePath=filePath.substring(45);
-        ossClient.deleteObject(ossConfigure.getBucketName(), filePath);
+        OSSClient ossClient = new OSSClient(endpoint, accessKeyId,
+                accessKeySecret);
+//        filePath=filePath.substring(45);
+        ossClient.deleteObject(bucketName, filePath);
 
     }
 
