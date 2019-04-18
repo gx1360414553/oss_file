@@ -10,14 +10,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.UUID;
 
 public  class OSSManageUtil {
 
     private static String endpoint = "oss-cn-shenzhen.aliyuncs.com";
     private static String accessKeyId = "LTAIUq4XUo9YbSXa";
     private static String accessKeySecret = "SFbS9ACh9XLz3E3YqaGMPZl7GuYWWi";
-    private static String bucketName = "myfile12345";
-    private static String accessUrl = bucketName + ".oss-cn-shenzhen.aliyuncs.com";
+    private static String bucketName = "linayi";
+    private static String accessUrl = "https://" + bucketName + ".oss-cn-shenzhen.aliyuncs.com";
     /**
      * 上传OSS服务器文件 @Title: uploadFile
      *  @param fileContent spring 上传的流
@@ -27,7 +28,9 @@ public  class OSSManageUtil {
      */
     public static String uploadFile(InputStream fileContent, String remotePath,String fileName) throws Exception {
         //随机名处理
-        fileName = "linayi_" + new Date().getTime() + fileName.substring(fileName.lastIndexOf("."));
+        String datePath = DateUtil.date2String(new Date(), "yyyy/MM/dd/HH");
+        String name = UUID.randomUUID().toString();
+        fileName = datePath + "/" + name + fileName;
         // 加载配置文件，初始化OSSClient
 //        OSSConfigure ossConfigure = new OSSConfigure("/system.properties");
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId,
@@ -38,7 +41,8 @@ public  class OSSManageUtil {
         //设置bucket权限
         ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
         // 定义二级目录
-        String remoteFilePath = remotePath.substring(0, remotePath.length()).replaceAll("\\\\", "/") + "/";
+        String remoteFilePath = remotePath.replaceAll("\\*", "/") + "/";
+//        String remoteFilePath = remotePath.replaceAll("\\\\", "/") + "/";
         // 创建上传Object的Metadata
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(fileContent.available());
