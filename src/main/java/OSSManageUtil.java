@@ -37,9 +37,11 @@ public  class OSSManageUtil {
                 accessKeySecret);
 //        if(!ossClient.doesBucketExist(bucketName)){
 //            ossClient.createBucket(bucketName);
-//        }
         //设置bucket权限
-        ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
+//         ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
+//        }
+        // 设置bucket权限 必须为用户添加AliyunOSSFullAccess（管理对象存储服务（OSS）权限）的权限
+//         ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
         // 定义二级目录
         String remoteFilePath = remotePath.replaceAll("\\*", "/") + "/";
 //        String remoteFilePath = remotePath.replaceAll("\\\\", "/") + "/";
